@@ -32,7 +32,7 @@ Need to Get a certificate manager. API Connect uses cert-manager v1.18.1 of cert
 
 You can obtain `cert-manager v1.18.1` from the API Connect v10 distribution `helper_files.zip` archive, or download it from https://github.com/cert-manager/cert-manager/releases/tag/v1.18.1
 
-1. But the file is available [here](./files/cert-manager.yaml) in this repo. Download this.
+1. Download the file is available [here](./files/cert-manager.yaml) in this repo.
 
 2. Run the following command to apply the CR
 
@@ -69,7 +69,7 @@ kubectl create secret generic datapower-admin-credentials --from-literal=passwor
 
 ### 3.4. Install API Connect CRDs
 
-1. Take the file  [ibm-apiconnect-crds.yaml](./files/ibm-apiconnect-crds.yaml) in this repo. Download this.
+1. Download the file  [ibm-apiconnect-crds.yaml](./files/ibm-apiconnect-crds.yaml) from this repo.
 
 2. Run the following command to deploy the same
 
@@ -79,7 +79,7 @@ kubectl apply -f ibm-apiconnect-crds.yaml -n apiconnect
 
 ### 3.5. Install API Connect Operator
 
-1. Take the file  [ibm-apiconnect.yaml](./files/ibm-apiconnect.yaml) in this repo. Download this.
+1. Download the file  [ibm-apiconnect.yaml](./files/ibm-apiconnect.yaml) from this repo.
 
 2. In the downloaded file, replace the text `docker.io/test_user` with docker registry name and user name.
 
@@ -92,7 +92,7 @@ kubectl apply -f ibm-apiconnect.yaml -n apiconnect
 
 ### 3.6. Install ingress-ca Issuer to be used by cert-manager
 
-1. Take the file  [ingress-issuer-v1.yaml](./files/ingress-issuer-v1.yaml) in this repo. Download this.
+1. Download the file  [ingress-issuer-v1.yaml](./files/ingress-issuer-v1.yaml) from this repo.
 
 2. Run the following command to deploy the same
 
@@ -126,7 +126,7 @@ Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/1
 
 ### 4.1 Download the file
 
-1. Take the file  [management_cr.yaml](./files/management_cr.yaml) in this repo. Download this.
+1. Download the file  [management_cr.yaml](./files/management_cr.yaml) from this repo.
 
 ### 4.2 Update the info (Must do)
 
@@ -140,7 +140,7 @@ imageRegistry: docker.io/test_user
 
 Find and replace the `111.222.333.444.nip.io` with the actual end point of your cluster.
 
-### 4.3Update the info (as per your need)
+### 4.3Update the info (if you need)
 
 In the downloaded file, replace the following info only if required.
 
@@ -201,7 +201,7 @@ Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/1
 
 ### 5.1 Download the file
 
-1. Take the file  [apigateway_cr.yaml](./files/apigateway_cr.yaml) in this repo. Download this.
+1. Download the file  [apigateway_cr.yaml](./files/apigateway_cr.yaml) from this repo.
 
 ### 5.2 Update the info (Must do)
 
@@ -215,7 +215,7 @@ imageRegistry: docker.io/test_user
 
 Find and replace the `111.222.333.444.nip.io` with the actual end point of your cluster.
 
-### 5.3 Update the info (as per your need)
+### 5.3 Update the info (if you need)
 
 In the downloaded file, replace the following info only if required.
 
