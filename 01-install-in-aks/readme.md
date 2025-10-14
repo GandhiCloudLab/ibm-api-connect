@@ -1,22 +1,22 @@
 # Installing API Connect in AKS
 
-## Kubernetes ingress controller prerequisites
+# 1. Kubernetes ingress controller prerequisites
 
 Follow this : 
 https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=deployment-kubernetes-ingress-controller-prerequisites
 
-## Obtaining product files
+# 2. Obtaining product files
 
 Follow this : 
 https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=procedures-obtaining-product-files
 
 
-## Deploying operators in a single-namespace API Connect cluster
+# 3. Deploying operators in a single-namespace API Connect cluster
 
 Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.8_lts?topic=docm-deploying-operators-in-single-namespace-api-connect-cluster) for more detailed info
 
 
-#### 1. Create Namespace
+### 3.1. Create Namespace
 
 1. Login into the Kubernetes cluster via kubectl cli.
 
@@ -26,7 +26,7 @@ Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/1
 kubectl create ns apiconnect
 ```
 
-#### 2. Install Certificate Manager
+### 3.2. Install Certificate Manager
 
 Need to Get a certificate manager. API Connect uses cert-manager v1.18.1 of cert-manager, which is a native Kubernetes certificate management controller.
 
@@ -45,7 +45,7 @@ kubectl apply -f cert-manager.yaml
 kubectl get po -n cert-manager 
 ```
 
-#### 3. Create registry secret
+### 3.3. Create registry secret
 
 Need to create a registry secret with credentials to be used to pull down product images.
 
@@ -67,7 +67,7 @@ kubectl create secret docker-registry datapower-docker-local-cred --docker-serve
 kubectl create secret generic datapower-admin-credentials --from-literal=password=admin -n apiconnect
 ```
 
-#### 4. Install API Connect CRDs
+### 3.4. Install API Connect CRDs
 
 1. Take the file  [ibm-apiconnect-crds.yaml](./files/ibm-apiconnect-crds.yaml) in this repo. Download this.
 
@@ -77,7 +77,7 @@ kubectl create secret generic datapower-admin-credentials --from-literal=passwor
 kubectl apply -f ibm-apiconnect-crds.yaml -n apiconnect
 ```
 
-#### 5. Install API Connect Operator
+### 3.5. Install API Connect Operator
 
 1. Take the file  [ibm-apiconnect.yaml](./files/ibm-apiconnect.yaml) in this repo. Download this.
 
@@ -90,7 +90,7 @@ kubectl apply -f ibm-apiconnect.yaml -n apiconnect
 
 ```
 
-#### 6. Install ingress-ca Issuer to be used by cert-manager
+### 3.6. Install ingress-ca Issuer to be used by cert-manager
 
 1. Take the file  [ingress-issuer-v1.yaml](./files/ingress-issuer-v1.yaml) in this repo. Download this.
 
@@ -120,15 +120,15 @@ portal-admin-client          True    portal-admin-client          71s
 portal-tunnel-client         True    portal-tunnel-client         70s
 ```
 
-## Deploying SubSystems - Installing the management subsystem
+# 4. Deploying SubSystems - Installing the management subsystem
 
 Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=subsystems-installing-management-subsystem) for more detailed info.
 
-### Download the file
+### 4.1 Download the file
 
 1. Take the file  [management_cr.yaml](./files/management_cr.yaml) in this repo. Download this.
 
-### Update the info (Must do)
+### 4.2 Update the info (Must do)
 
 In the downloaded file, replace the following info only if required.
 
@@ -140,7 +140,7 @@ imageRegistry: docker.io/test_user
 
 Find and replace the `111.222.333.444.nip.io` with the actual end point of your cluster.
 
-### Update the info (as per your need)
+### 4.3Update the info (as per your need)
 
 In the downloaded file, replace the following info only if required.
 
@@ -167,7 +167,7 @@ storageClassName: managed-premium
     license: L-HTFS-UAXYM3
 ```
 
-### Install the management CR
+### 4.4 Install the management CR
 
 1. Run the following command to deploy the same
 
@@ -195,15 +195,15 @@ https://admin.111.222.333.444.nip.io/admin
 
 
 
-## Deploying SubSystems - Installing the gateway subsystem
+# 5. Deploying SubSystems - Installing the gateway subsystem
 
 Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=subsystems-installing-gateway-subsystem) for more detailed info.
 
-### Download the file
+### 5.1 Download the file
 
 1. Take the file  [apigateway_cr.yaml](./files/apigateway_cr.yaml) in this repo. Download this.
 
-### Update the info (Must do)
+### 5.2 Update the info (Must do)
 
 In the downloaded file, replace the following info only if required.
 
@@ -215,7 +215,7 @@ imageRegistry: docker.io/test_user
 
 Find and replace the `111.222.333.444.nip.io` with the actual end point of your cluster.
 
-### Update the info (as per your need)
+### 5.3 Update the info (as per your need)
 
 In the downloaded file, replace the following info only if required.
 
@@ -242,7 +242,7 @@ storageClassName: managed-premium
     license: L-HTFS-UAXYM3
 ```
 
-### Install the Gateway CR
+### 5.4 Install the Gateway CR
 
 1. Run the following command to deploy the same
 
