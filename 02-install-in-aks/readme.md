@@ -1,11 +1,15 @@
 # Installing API Connect in AKS
 
+
+
 # 1. Kubernetes ingress controller prerequisites
 
 Follow this : 
 https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=deployment-kubernetes-ingress-controller-prerequisites
 
 # 2. Obtaining product files
+
+<details><summary>CLICK ME</summary>
 
 Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=procedures-obtaining-product-files) for more detailed info, but you don't need to use this for the installation.
 
@@ -28,6 +32,7 @@ Follow the documentation [here](../01-download-api-connect-binaries) and downloa
   ```
 
 ### 3. Login to the Docker registry
+
 
 1. Replace the values of the following variables as required
 2. Run the below commands.
@@ -52,8 +57,11 @@ or
 ```
 docker run --rm apiconnect-image-tool-10.0.8.4 upload $DOCKER_SERVER --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
 ```
+</details>
 
 # 3. Deploying operators in a single-namespace API Connect cluster
+
+<details><summary>CLICK ME</summary>
 
 Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.8_lts?topic=docm-deploying-operators-in-single-namespace-api-connect-cluster) for more detailed info, but you don't need to use this for the installation.
 
@@ -156,8 +164,11 @@ ingress-ca                   True    ingress-ca                   71s
 portal-admin-client          True    portal-admin-client          71s
 portal-tunnel-client         True    portal-tunnel-client         70s
 ```
+</details>
 
 # 4. Deploying SubSystems - Installing the management subsystem
+
+<details><summary>CLICK ME</summary>
 
 Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=subsystems-installing-management-subsystem) for more detailed info, but you don't need to use this for the installation.
 
@@ -230,9 +241,11 @@ Replace the "111.222.333.444.nip.io" with the actual end point below and open th
 
 https://admin.111.222.333.444.nip.io/admin
 
-
+</details>
 
 # 5. Deploying SubSystems - Installing the gateway subsystem
+
+<details><summary>CLICK ME</summary>
 
 Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=subsystems-installing-gateway-subsystem) for more detailed info, but you don't need to use this for the installation.
 
@@ -281,7 +294,7 @@ storageClassName: managed-premium
 
 ### 5.4 Install the Gateway CR
 
-1. Run the following command to deploy the same
+1. Run the following command to deploy the same.
 
 ```
 kubectl apply -f apigateway_cr.yaml -n apiconnect
