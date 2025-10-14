@@ -24,6 +24,7 @@ Follow the documentation [here](../01-download-api-connect-binaries) and downloa
   ```
   docker load apiconnect-image-tool_10.0.8.4.tar.gz
   ```
+</details>
 
 
 # 2. Kubernetes ingress controller prerequisites
