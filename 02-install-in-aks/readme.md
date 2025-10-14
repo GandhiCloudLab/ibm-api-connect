@@ -24,34 +24,6 @@ Follow the documentation [here](../01-download-api-connect-binaries) and downloa
   ```
   docker load apiconnect-image-tool_10.0.8.4.tar.gz
   ```
-</details>
-
-
-# 2. Kubernetes ingress controller prerequisites
-
-<details><summary>CLICK ME</summary>
-
-Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=deployment-kubernetes-ingress-controller-prerequisites) for more detailed info, but you don't need to use this for the installation.
-
-A Kubernetes deployment for IBM API Connect requires the **kubernetes/ingress-nginx** ingress controller implementation (see https://github.com/kubernetes/ingress-nginx) with SSL passthrough enabled.
-
-1. Login into the Kubernetes cluster via kubectl cli.
-
-2. Dowload the sample [ingress-config.yaml](../files/ingress-config.yaml) file to configure the ingress controller.
-
-3. Run the following commands to make the **helm** repo ready.
-
-```
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-```
-
-4. With the above downloaded **ingress-config.yaml** file run the following command.
-```
-helm install ingress-controller ingress-nginx/ingress-nginx --namespace kube-system --values ingress-config.yaml
-```
-</details>
-
 
 ### 3. Login to the Docker registry
 
@@ -80,6 +52,35 @@ or
 docker run --rm apiconnect-image-tool-10.0.8.4 upload $DOCKER_SERVER --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
 ```
 </details>
+
+
+
+# 2. Kubernetes ingress controller prerequisites
+
+<details><summary>CLICK ME</summary>
+
+Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=deployment-kubernetes-ingress-controller-prerequisites) for more detailed info, but you don't need to use this for the installation.
+
+A Kubernetes deployment for IBM API Connect requires the **kubernetes/ingress-nginx** ingress controller implementation (see https://github.com/kubernetes/ingress-nginx) with SSL passthrough enabled.
+
+1. Login into the Kubernetes cluster via kubectl cli.
+
+2. Dowload the sample [ingress-config.yaml](../files/ingress-config.yaml) file to configure the ingress controller.
+
+3. Run the following commands to make the **helm** repo ready.
+
+```
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+```
+
+4. With the above downloaded **ingress-config.yaml** file run the following command.
+```
+helm install ingress-controller ingress-nginx/ingress-nginx --namespace kube-system --values ingress-config.yaml
+```
+</details>
+
+
 
 # 3. Deploying operators in a single-namespace API Connect cluster
 
