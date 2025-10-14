@@ -7,9 +7,67 @@ https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=deployment-kubernetes-in
 
 # 2. Obtaining product files
 
-Follow this : 
-https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=procedures-obtaining-product-files
+Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=procedures-obtaining-product-files) for more detailed info
 
+### 1. Obtain the API Connect files
+
+Follow the documentation [here](../01-download-api-connect-binaries).
+
+### 2. Load the image-tool image in your Docker local registry
+
+1. Run the below command.
+
+```
+docker load -i apiconnect-image-tool_10.0.8.4.tar.gz
+```
+
+or 
+
+```
+docker load apiconnect-image-tool_10.0.8.4.tar.gz
+```
+
+### 3. Login to the Docker registry
+
+1. Replace the values of the following variables as required
+2. Run the below commands.
+```
+export DOCKER_SERVER=docker.io
+export DOCKER_USERNAME=test_user
+export DOCKER_PASSWORD=test_password
+
+```
+3. Run the following commmand to login into the registry
+
+```
+docker login $DOCKER_SERVER -u $DOCKER_USERNAME  -p $DOCKER_PASSWORD
+```
+
+4. Run the following commmand uload the image from local registry to the remote docker registry
+
+```
+docker run --rm apiconnect-image-tool-10.0.8.4 upload $DOCKER_SERVER/$DOCKER_USERNAME
+```
+or
+
+```
+docker run --rm apiconnect-image-tool-10.0.8.4 upload $DOCKER_SERVER --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+```
+
+
+
+
+
+### 3. Upload the image Docker registry
+
+If you do not need to authenticate with the docker registry, run the following:
+
+```
+docker load -i apiconnect-image-tool_10.0.8.4.tar.gz
+```
+
+:
+If you do not need to authenticate with the docker registry, use:
 
 # 3. Deploying operators in a single-namespace API Connect cluster
 
