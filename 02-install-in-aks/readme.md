@@ -1,6 +1,32 @@
 # Installing API Connect in AKS
 
-# 1. Kubernetes ingress controller prerequisites
+
+# 1. Obtaining product files
+
+<details><summary>CLICK ME</summary>
+
+Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=procedures-obtaining-product-files) for more detailed info, but you don't need to use this for the installation.
+
+### 1. Obtain the API Connect files
+
+Follow the documentation [here](../01-download-api-connect-binaries) and download the binaries.
+
+### 2. Load the image-tool image in your Docker local registry
+
+1. Run the below command.
+
+  ```
+  docker load -i apiconnect-image-tool_10.0.8.4.tar.gz
+  ```
+
+  or 
+
+  ```
+  docker load apiconnect-image-tool_10.0.8.4.tar.gz
+  ```
+
+
+# 2. Kubernetes ingress controller prerequisites
 
 <details><summary>CLICK ME</summary>
 
@@ -25,29 +51,6 @@ helm install ingress-controller ingress-nginx/ingress-nginx --namespace kube-sys
 ```
 </details>
 
-# 2. Obtaining product files
-
-<details><summary>CLICK ME</summary>
-
-Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=procedures-obtaining-product-files) for more detailed info, but you don't need to use this for the installation.
-
-### 1. Obtain the API Connect files
-
-Follow the documentation [here](../01-download-api-connect-binaries) and download the binaries.
-
-### 2. Load the image-tool image in your Docker local registry
-
-1. Run the below command.
-
-  ```
-  docker load -i apiconnect-image-tool_10.0.8.4.tar.gz
-  ```
-
-  or 
-
-  ```
-  docker load apiconnect-image-tool_10.0.8.4.tar.gz
-  ```
 
 ### 3. Login to the Docker registry
 
