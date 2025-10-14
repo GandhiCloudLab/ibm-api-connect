@@ -1,6 +1,6 @@
 # Downloading API connect files
 
-Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=procedures-obtaining-product-files) for more detailed info about obtaining product files
+Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=procedures-obtaining-product-files) for more detailed info about obtaining product files, but you don't need to use this for the installation.
 
 ## 1. Download IBM API Connect for Containers
 
@@ -10,8 +10,8 @@ Need to download the Docker images for all API Connect subsystems.
 2. Do login with IBM Id.
 3. Choose the tab **Find product**
 4. Then choose the following values
-    - **Product selector*** : IBM API Connect
-    - **Installed Version*** : 10.0.8.0
+    - **Product selector** : IBM API Connect
+    - **Installed Version** : 10.0.8.0
     - **Platform** : Linux
 5. Click on **Continue** button
     <img src="images/img11.png" >
