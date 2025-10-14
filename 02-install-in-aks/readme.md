@@ -1,11 +1,29 @@
 # Installing API Connect in AKS
 
-
-
 # 1. Kubernetes ingress controller prerequisites
 
-Follow this : 
-https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=deployment-kubernetes-ingress-controller-prerequisites
+<details><summary>CLICK ME</summary>
+
+Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=deployment-kubernetes-ingress-controller-prerequisites) for more detailed info, but you don't need to use this for the installation.
+
+A Kubernetes deployment for IBM API Connect requires the **kubernetes/ingress-nginx** ingress controller implementation (see https://github.com/kubernetes/ingress-nginx) with SSL passthrough enabled.
+
+1. Login into the Kubernetes cluster via kubectl cli.
+
+2. Dowload the sample [ingress-config.yaml](../files/ingress-config.yaml) file to configure the ingress controller.
+
+3. Run the following commands to make the **helm** repo ready.
+
+```
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+```
+
+4. With the above downloaded **ingress-config.yaml** file run the following command.
+```
+helm install ingress-controller ingress-nginx/ingress-nginx --namespace kube-system --values ingress-config.yaml
+```
+</details>
 
 # 2. Obtaining product files
 
@@ -68,9 +86,7 @@ Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/1
 
 ### 3.1. Create Namespace
 
-1. Login into the Kubernetes cluster via kubectl cli.
-
-2. Run the following command to create namespace
+1. Run the following command to create namespace
 
 ```
 kubectl create ns apiconnect
