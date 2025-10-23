@@ -1,6 +1,5 @@
 # Installing API Connect in AKS
 
-
 # 1. Obtaining product files
 
 <details><summary>CLICK ME</summary>
@@ -25,7 +24,7 @@ Follow the documentation [here](../01-download-api-connect-binaries) and downloa
   docker load apiconnect-image-tool_10.0.8.4.tar.gz
   ```
 
-### 3. Login to the Docker registry
+### 3. Upload the product images from local registry to remote Docker registry
 
 
 1. Replace the values of the following variables as required
@@ -333,3 +332,221 @@ NAME   READY   SUMMARY   VERSION    RECONCILED VERSION   AGE
 gwv5   True    2/2       <version>  <version-build>      7m31s
 gwv6   True    2/2       <version>  <version-build>      7m32s
 ```
+
+
+# 6. Deploying SubSystems - Installing the developer portal subsystem
+
+<details><summary>CLICK ME</summary>
+
+Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=subsystems-installing-developer-portal-subsystem) for more detailed info, but you don't need to use this for the installation.
+
+### 6.1 Download the file
+
+1. Download the file  [portal_cr.yaml](./files/portal_cr.yaml) from this repo.
+
+### 6.2 Update the info (Must do)
+
+In the downloaded file, replace the following info only if required.
+
+1. Update the host name of the Docker Registry to which you uploaded the installation images.
+```
+imageRegistry: docker.io/test_user
+```
+2. Need to update the desired ingress subdomain for the API Connect stack. 
+
+Find and replace the `111.222.333.444.nip.io` with the actual end point of your cluster.
+
+### 6.3 Update the info (if you need)
+
+In the downloaded file, replace the following info only if required.
+
+1. Update the API Connect application version.
+```
+version: 10.0.8.4
+```
+
+2. Update the Specify your management subsystem profile,
+```
+profile: n1xc4.m16
+```
+
+3. Update the stroage class names in all the places.
+```
+storageClassName: managed-premium
+```
+
+4. Update the License info
+```
+  license:
+    accept: true
+    use: nonproduction
+    license: L-HTFS-UAXYM3
+```
+
+### 6.4 Install the Portal CR
+
+1. Run the following command to deploy the same.
+
+```
+kubectl apply -f portal_cr.yaml -n apiconnect
+```
+
+2. Verify that the developer portal is fully installed by running this command.
+
+```
+kubectl get PortalCluster -n apiconnect
+```
+
+The installation has completed when the status is in Running and READY should have value like 5/5. For example:
+```
+NAME     READY   STATUS    VERSION    RECONCILED VERSION   MESSAGE                                            AGE
+portal   5/5     Running   10.0.8.4   10.0.8.4-3237        Ready for API Cloud Manager service registration   3m35s
+```
+
+
+### 6.5 Access the portal
+
+The portal URL would be like this. You can change the URL as per your configuration. 
+
+1. Access the portal in the browser using this URL (after making the required changes).
+
+```
+https://portal.111.222.333.444.nip.io/
+
+```
+
+
+You may see the following text in the screen.
+```
+Developer Portal is ready to create sites!
+If you see this page, the web server is successfully installed and working. Further configuration is required.
+```
+
+### 6.6 Configuration
+
+Need to register a portal service. Follow this [link](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=topology-registering-portal-service) to configure the same.
+
+</details>
+
+# 7. Deploying SubSystems - Installing the analytics subsystem
+
+<details><summary>CLICK ME</summary>
+
+Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/10.0.x_cd?topic=subsystems-installing-analytics-subsystem) for more detailed info, but you don't need to use this for the installation.
+
+### 7.1 Download the file
+
+1. Download the file  [analytics_cr.yaml](./files/analytics_cr.yaml) from this repo.
+
+### 7.2 Update the info (Must do)
+
+In the downloaded file, replace the following info only if required.
+
+1. Update the host name of the Docker Registry to which you uploaded the installation images.
+```
+imageRegistry: docker.io/test_user
+```
+2. Need to update the desired ingress subdomain for the API Connect stack. 
+
+Find and replace the `111.222.333.444.nip.io` with the actual end point of your cluster.
+
+### 7.3 Update the info (if you need)
+
+In the downloaded file, replace the following info only if required.
+
+1. Update the API Connect application version.
+```
+version: 10.0.8.4
+```
+
+2. Update the Specify your management subsystem profile,
+```
+profile: n1xc4.m32
+```
+
+3. Update the stroage class names in all the places.
+```
+storageClassName: azurefile-csi-premium
+```
+
+4. Update the License info
+```
+  license:
+    accept: true
+    use: nonproduction
+    license: L-HTFS-UAXYM3
+```
+
+### 7.4 Install the analytics CR
+
+1. Run the following command to deploy the same.
+
+```
+kubectl apply -f analytics_cr.yaml -n apiconnect
+```
+
+2. Verify that the analytics subsystem is fully installed by running this command.
+
+```
+kubectl get AnalyticsCluster -n apiconnect
+```
+
+The installation has completed when the status is in Running and READY should have value like 8/8. For example:
+```
+NAME        READY   STATUS    VERSION    RECONCILED VERSION   AGE
+analytics   8/8     Running   10.0.8.4   10.0.8.4-3237        48m
+```
+
+#### Debugging
+
+If any are not ready in the above output you need to see pod status.
+
+1. Running this command.
+
+```
+kubectl get pods -n apiconnect
+```
+
+You may have a pod in CrashLoopBackOff status.
+```
+NAME                                                    READY   STATUS             RESTARTS        AGE
+analytics-storage-0                                     1/2     CrashLoopBackOff   9 (4m44s ago)   29m
+```
+
+2. Get the logs of the pod by running the below command.
+
+```
+kubectl logs analytics-storage-0 -n apiconnect
+```
+
+you may have the logs like this.
+```
+[2025-10-23T02:28:51,472][INFO ][o.o.t.TransportService   ] [analytics-storage-0] Remote clusters initialized successfully.
+[2025-10-23T02:28:52,142][INFO ][o.o.b.BootstrapChecks    ] [analytics-storage-0] bound or publishing to a non-loopback address, enforcing bootstrap checks
+ERROR: [1] bootstrap checks failed
+[1]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+ERROR: OpenSearch did not exit normally - check the logs at /usr/share/opensearch/logs/apic-analytics-cluster.log
+[2025-10-23T02:28:52,153][INFO ][o.o.s.a.r.AuditMessageRouter] [analytics-storage-0] Closing AuditMessageRouter
+[2025-10-23T02:28:52,154][INFO ][o.o.n.Node               ] [analytics-storage-0] stopping ...
+```
+
+This shows the probelm with the virtual memory.
+
+
+3. Download the file  [sysctl-vm-max-map-count.yaml](./files/sysctl-vm-max-map-count.yaml) from this repo.
+
+4. Run the following command to deploy the same.
+
+```
+kubectl apply -f sysctl-vm-max-map-count.yaml -n apiconnect
+```
+
+5. Running this command.
+
+```
+kubectl get pods -n apiconnect
+```
+
+You may not have a pod in CrashLoopBackOff status.
+
+</details>
