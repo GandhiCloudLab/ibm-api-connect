@@ -186,7 +186,7 @@ portal-tunnel-client         True    portal-tunnel-client         70s
 ```
 </details>
 
-# 4. Deploying SubSystems - Installing the management subsystem
+# 4. Installing the management subsystem
 
 <details><summary>CLICK ME</summary>
 
@@ -217,7 +217,7 @@ In the downloaded file, replace the following info only if required.
 version: 10.0.8.4
 ```
 
-2. Update the Specify your management subsystem profile,
+2. Update the profile.
 ```
 profile: n1xc2.m16
 ```
@@ -263,7 +263,7 @@ https://admin.111.222.333.444.nip.io/admin
 
 </details>
 
-# 5. Deploying SubSystems - Installing the gateway subsystem
+# 5. Installing the gateway subsystem
 
 <details><summary>CLICK ME</summary>
 
@@ -294,7 +294,7 @@ In the downloaded file, replace the following info only if required.
 version: 10.0.8.4
 ```
 
-2. Update the Specify your management subsystem profile,
+2. Update the profile
 ```
 profile: n1xc4.m8
 ```
@@ -334,7 +334,7 @@ gwv6   True    2/2       <version>  <version-build>      7m32s
 ```
 </details>
 
-# 6. Deploying SubSystems - Installing the developer portal subsystem
+# 6. Installing the developer portal subsystem
 
 <details><summary>CLICK ME</summary>
 
@@ -365,7 +365,7 @@ In the downloaded file, replace the following info only if required.
 version: 10.0.8.4
 ```
 
-2. Update the Specify your management subsystem profile,
+2. Update the profile,
 ```
 profile: n1xc4.m16
 ```
@@ -412,7 +412,6 @@ The portal URL would be like this. You can change the URL as per your configurat
 
 ```
 https://portal.111.222.333.444.nip.io/
-
 ```
 
 
@@ -428,7 +427,7 @@ Need to register a portal service. Follow this [link](https://www.ibm.com/docs/e
 
 </details>
 
-# 7. Deploying SubSystems - Installing the analytics subsystem
+# 7. Installing the analytics subsystem
 
 <details><summary>CLICK ME</summary>
 
@@ -459,12 +458,12 @@ In the downloaded file, replace the following info only if required.
 version: 10.0.8.4
 ```
 
-2. Update the Specify your management subsystem profile,
+2. Update the profile
 ```
 profile: n1xc4.m32
 ```
 
-3. Update the stroage class names in all the places.
+3. Update the stroage class name.
 ```
 storageClassName: azurefile-csi-premium
 ```
@@ -479,7 +478,7 @@ storageClassName: azurefile-csi-premium
 
 ### 7.4 Install the analytics CR
 
-1. Run the following command to deploy the same.
+1. Run the following command to deploy the CR.
 
 ```
 kubectl apply -f analytics_cr.yaml -n apiconnect
@@ -491,7 +490,7 @@ kubectl apply -f analytics_cr.yaml -n apiconnect
 kubectl get AnalyticsCluster -n apiconnect
 ```
 
-The installation has completed when the status is in Running and READY should have value like 8/8. For example:
+The installation has completed when the status is in Running and READY should have value like 8/8. 
 ```
 NAME        READY   STATUS    VERSION    RECONCILED VERSION   AGE
 analytics   8/8     Running   10.0.8.4   10.0.8.4-3237        48m
@@ -501,7 +500,7 @@ analytics   8/8     Running   10.0.8.4   10.0.8.4-3237        48m
 
 If any are not ready in the above output you need to see pod status.
 
-1. Running this command.
+1. Run this command.
 
 ```
 kubectl get pods -n apiconnect
@@ -541,7 +540,7 @@ This shows the probelm with the virtual memory.
 kubectl apply -f sysctl-vm-max-map-count.yaml -n apiconnect
 ```
 
-5. Running this command.
+5. Run this command.
 
 ```
 kubectl get pods -n apiconnect
