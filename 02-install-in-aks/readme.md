@@ -332,7 +332,7 @@ NAME   READY   SUMMARY   VERSION    RECONCILED VERSION   AGE
 gwv5   True    2/2       <version>  <version-build>      7m31s
 gwv6   True    2/2       <version>  <version-build>      7m32s
 ```
-
+</details>
 
 # 6. Deploying SubSystems - Installing the developer portal subsystem
 
