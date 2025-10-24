@@ -64,7 +64,7 @@ A Kubernetes deployment for IBM API Connect requires the **kubernetes/ingress-ng
 
 1. Login into the Kubernetes cluster via kubectl cli.
 
-2. Dowload the sample [ingress-config.yaml](../files/ingress-config.yaml) file to configure the ingress controller.
+2. Dowload the sample [ingress-config.yaml](./files/ingress-config.yaml) file to configure the ingress controller.
 
 3. Run the following commands to make the **helm** repo ready.
 
