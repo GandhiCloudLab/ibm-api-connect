@@ -23,7 +23,7 @@ spec:
   profile: n1xc4.m8
   imagePullSecrets:
   - apic-registry-secret
-  imageRegistry: docker.io/gandigit
+  imageRegistry: docker.io/test_user
   apicGatewayServiceV5CompatibilityMode: false
   gatewayEndpoint:
     ingressClassName: nginx

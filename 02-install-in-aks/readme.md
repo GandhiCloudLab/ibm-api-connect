@@ -53,8 +53,9 @@ docker run --rm apiconnect-image-tool-10.0.8.4 upload $DOCKER_SERVER --username 
 </details>
 
 
+# 2. Ingress controller prerequisites
 
-# 2. Kubernetes ingress controller prerequisites
+## 2.1 Install Kubernetes ingress controller 
 
 <details><summary>CLICK ME</summary>
 
@@ -79,6 +80,29 @@ helm install ingress-controller ingress-nginx/ingress-nginx --namespace kube-sys
 ```
 </details>
 
+## 2.2 Install ingress-nginx
+
+<details><summary>CLICK ME</summary>
+
+1. Run the below command to install ingress-nginx.
+
+  ```
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+  ```
+
+2. Run the below command to know the External IP Address cluster.
+  ```
+  kubectl get service ingress-nginx-controller -n ingress-nginx
+  ```
+you may get the below output.
+
+  ```
+  NAME                       TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)                      AGE
+  ingress-nginx-controller   LoadBalancer   10.0.15.218   22.33.44.55   80:30172/TCP,443:31150/TCP   89m
+  ```
+3. Note the IP Address displayed under the `EXTERNAL-IP` column ex: `22.33.44.55`.
+
+</details>
 
 
 # 3. Deploying operators in a single-namespace API Connect cluster
@@ -137,12 +161,20 @@ kubectl create secret generic datapower-admin-credentials --from-literal=passwor
 
 ### 3.4. Install API Connect CRDs
 
-1. Download the file  [ibm-apiconnect-crds.yaml](./files/ibm-apiconnect-crds.yaml) from this repo.
+1. Download the file  [ibm-apiconnect-crds1.yaml](./files/ibm-apiconnect-crds1.yaml) from this repo.
 
 2. Run the following command to deploy the same
 
 ```
-kubectl apply -f ibm-apiconnect-crds.yaml -n apiconnect
+kubectl apply -f ibm-apiconnect-crds1.yaml -n apiconnect
+```
+
+3. Download the file  [ibm-apiconnect-crds2.yaml](./files/ibm-apiconnect-crds2.yaml) from this repo.
+
+4. Run the following command to deploy the same
+
+```
+kubectl apply -f ibm-apiconnect-crds2.yaml -n apiconnect
 ```
 
 ### 3.5. Install API Connect Operator
@@ -198,7 +230,7 @@ Refer the product documentation [here](https://www.ibm.com/docs/en/api-connect/1
 
 ### 4.2 Update the info (Must do)
 
-In the downloaded file, replace the following info only if required.
+In the downloaded file, replace the following info.
 
 1. Update the host name of the Docker Registry to which you uploaded the installation images.
 ```
@@ -206,9 +238,10 @@ imageRegistry: docker.io/test_user
 ```
 2. Need to Update the desired ingress subdomain for the API Connect stack. 
 
-Find and replace the `111.222.333.444.nip.io` with the actual end point of your cluster.
+  - If you have actual end point of your cluster then and replace the `111.222.333.444.nip.io` with the actual end point of your cluster. 
+  - If you don't have/know the end point, then use the  `EXTERNAL-IP` column value we got it step 2.2 and replace the `111.222.333.444` with the actual end point of your cluster.
 
-### 4.3Update the info (if you need)
+### 4.3 Update the info (if you need)
 
 In the downloaded file, replace the following info only if required.
 
@@ -255,11 +288,38 @@ NAME         READY   SUMMARY   VERSION    RECONCILED VERSION   AGE
 management   True   16/16       <version>   <version-build>       7m17s
 ```
 
-3. To check your connection to the Cloud Manager user interface on the management subsystem on your Cloud Manager endpoint,
+### 4.5 Accessing Admin Portal
 
-Replace the "111.222.333.444.nip.io" with the actual end point below and open the url in the browser. 
+Let us access the Cloud Manager user interface as part of the management subsystem,
 
+1. Run the below command to get the Password for the portal.
+
+```
+kubectl get secret -n apiconnect management-admin-secret -o jsonpath="{.data.password}" | base64 -d && echo ""
+```
+
+2. The end point of the url might be like this. Replace it with the appropriate ip or url.
+
+```
 https://admin.111.222.333.444.nip.io/admin
+```
+
+3. Login into the portal
+
+  - UserName : admin
+  - Password : Retrieved in the above step*
+
+  <img src="images/img11.png" >
+
+
+4. Change the password
+
+  <img src="images/img12.png" >
+
+5. Home page of the portal is dispalyed.
+
+  <img src="images/img13.png" >
+
 
 </details>
 
@@ -281,9 +341,11 @@ In the downloaded file, replace the following info only if required.
 ```
 imageRegistry: docker.io/test_user
 ```
-2. Need to update the desired ingress subdomain for the API Connect stack. 
+ 2. Need to Update the desired ingress subdomain for the API Connect stack. 
 
-Find and replace the `111.222.333.444.nip.io` with the actual end point of your cluster.
+  - If you have actual end point of your cluster then and replace the `111.222.333.444.nip.io` with the actual end point of your cluster. 
+  - If you don't have/know the end point, then use the  `EXTERNAL-IP` column value we got it step 2.2 and replace the `111.222.333.444` with the actual end point of your cluster.
+
 
 ### 5.3 Update the info (if you need)
 
@@ -352,9 +414,11 @@ In the downloaded file, replace the following info only if required.
 ```
 imageRegistry: docker.io/test_user
 ```
-2. Need to update the desired ingress subdomain for the API Connect stack. 
 
-Find and replace the `111.222.333.444.nip.io` with the actual end point of your cluster.
+ 2. Need to Update the desired ingress subdomain for the API Connect stack. 
+
+  - If you have actual end point of your cluster then and replace the `111.222.333.444.nip.io` with the actual end point of your cluster. 
+  - If you don't have/know the end point, then use the  `EXTERNAL-IP` column value we got it step 2.2 and replace the `111.222.333.444` with the actual end point of your cluster.
 
 ### 6.3 Update the info (if you need)
 
@@ -408,12 +472,11 @@ portal   5/5     Running   10.0.8.4   10.0.8.4-3237        Ready for API Cloud M
 
 The portal URL would be like this. You can change the URL as per your configuration. 
 
-1. Access the portal in the browser using this URL (after making the required changes).
+1. Access the portal in the browser using this URL (after replace the IP with the appropriate ip or url).
 
 ```
 https://portal.111.222.333.444.nip.io/
 ```
-
 
 You may see the following text in the screen.
 ```
@@ -445,9 +508,10 @@ In the downloaded file, replace the following info only if required.
 ```
 imageRegistry: docker.io/test_user
 ```
-2. Need to update the desired ingress subdomain for the API Connect stack. 
+ 2. Need to Update the desired ingress subdomain for the API Connect stack. 
 
-Find and replace the `111.222.333.444.nip.io` with the actual end point of your cluster.
+  - If you have actual end point of your cluster then and replace the `111.222.333.444.nip.io` with the actual end point of your cluster. 
+  - If you don't have/know the end point, then use the  `EXTERNAL-IP` column value we got it step 2.2 and replace the `111.222.333.444` with the actual end point of your cluster.
 
 ### 7.3 Update the info (if you need)
 
