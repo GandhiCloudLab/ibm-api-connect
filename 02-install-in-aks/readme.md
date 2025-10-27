@@ -307,7 +307,7 @@ https://admin.111.222.333.444.nip.io/admin
 3. Login into the portal
 
   - UserName : admin
-  - Password : Retrieved in the above step*
+  - Password : Retrieved in the above step
 
   <img src="images/img11.png" >
 
@@ -542,13 +542,21 @@ storageClassName: azurefile-csi-premium
 
 ### 7.4 Install the analytics CR
 
-1. Run the following command to deploy the CR.
+1. Download the file  [sysctl-vm-max-map-count.yaml](./files/sysctl-vm-max-map-count.yaml) from this repo.
+
+2. Run the following command to deploy the same.
+
+```
+kubectl apply -f sysctl-vm-max-map-count.yaml
+```
+
+3. Run the following command to deploy the CR.
 
 ```
 kubectl apply -f analytics_cr.yaml -n apiconnect
 ```
 
-2. Verify that the analytics subsystem is fully installed by running this command.
+4. Verify that the analytics subsystem is fully installed by running this command.
 
 ```
 kubectl get AnalyticsCluster -n apiconnect
@@ -601,7 +609,7 @@ This shows the probelm with the virtual memory.
 4. Run the following command to deploy the same.
 
 ```
-kubectl apply -f sysctl-vm-max-map-count.yaml -n apiconnect
+kubectl apply -f sysctl-vm-max-map-count.yaml
 ```
 
 5. Run this command.
