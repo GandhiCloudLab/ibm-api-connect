@@ -610,7 +610,7 @@ NAME        READY   STATUS    VERSION    RECONCILED VERSION   AGE
 analytics   8/8     Running   10.0.8.4   10.0.8.4-3237        48m
 ```
 
-#### Debugging
+#### Debugging (only if have any issues)
 
 If any are not ready in the above output you need to see pod status.
 
