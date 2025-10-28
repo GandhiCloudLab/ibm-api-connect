@@ -285,7 +285,7 @@ profile: n1xc2.m16
 storageClassName: managed-premium
 ```
 
-- For AKS : **azurefile-csi-premium**
+- For AKS : **managed-premium**
 - For GKE : **premium-rwo**
 
 4. Update the License info
