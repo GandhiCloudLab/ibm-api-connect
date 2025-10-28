@@ -332,7 +332,7 @@ kubectl get secret -n apiconnect management-admin-secret -o jsonpath="{.data.pas
 https://admin.111.222.333.444.nip.io/admin
 ```
 
-3. Login into the portal
+3. Login into the admin portal
 
   - UserName : admin
   - Password : Retrieved in the above step
@@ -425,6 +425,10 @@ NAME   READY   SUMMARY   VERSION    RECONCILED VERSION   AGE
 gwv6   3/3     Running   10.0.8.4   10.0.8.4-3237        8h
 ```
 </details>
+
+### 5.5 Configuring the API Gateway
+
+You can configure the API Gateway using the document  [here](../11-configuring-api-gateway/) 
 
 # 6. Installing the developer portal subsystem
 
