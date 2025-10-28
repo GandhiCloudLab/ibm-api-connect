@@ -105,7 +105,7 @@ you may get the below output.
 </details>
 
 
-# 3. Deploying operators in a single-namespace API Connect cluster
+# 3. Deploying operators
 
 <details><summary>CLICK ME</summary>
 
