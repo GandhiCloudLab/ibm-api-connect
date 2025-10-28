@@ -424,11 +424,12 @@ The installation has completed when the READY status is True, and the SUMMARY re
 NAME   READY   SUMMARY   VERSION    RECONCILED VERSION   AGE
 gwv6   3/3     Running   10.0.8.4   10.0.8.4-3237        8h
 ```
-</details>
 
 ### 5.5 Configuring the API Gateway
 
 You can configure the API Gateway using the document  [here](../11-configuring-api-gateway/) 
+
+</details>
 
 # 6. Installing the developer portal subsystem
 
