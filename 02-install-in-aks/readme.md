@@ -189,7 +189,23 @@ kubectl apply -f ibm-apiconnect-crds2.yaml -n apiconnect
 kubectl apply -f ibm-apiconnect.yaml -n apiconnect
 ```
 
-### 3.6. Install ingress-ca Issuer to be used by cert-manager
+ibm-datapower
+
+### 3.6. Install Data Power Operator
+
+1. Download the file  [ibm-datapower.yaml](./files/ibm-datapower.yaml) from this repo.
+
+2. In the downloaded file, replace the text `docker.io/test_user` with docker registry name and user name.
+
+3. Run the following command to deploy the same
+
+```
+kubectl apply -f ibm-datapower.yaml -n apiconnect
+```
+
+ibm-datapower
+
+### 3.7. Install ingress-ca Issuer to be used by cert-manager
 
 1. Download the file  [ingress-issuer-v1.yaml](./files/ingress-issuer-v1.yaml) from this repo.
 
@@ -388,11 +404,10 @@ kubectl apply -f apigateway_cr.yaml -n apiconnect
 kubectl get GatewayCluster -n apiconnect
 ```
 
-The installation has completed when the READY status is True, and the SUMMARY reports that all services are online (e.g. 16/16). For example:
+The installation has completed when the READY status is True, and the SUMMARY reports that all services are online (e.g. 3/3). For example:
 ```
 NAME   READY   SUMMARY   VERSION    RECONCILED VERSION   AGE
-gwv5   True    2/2       <version>  <version-build>      7m31s
-gwv6   True    2/2       <version>  <version-build>      7m32s
+gwv6   3/3     Running   10.0.8.4   10.0.8.4-3237        8h
 ```
 </details>
 
