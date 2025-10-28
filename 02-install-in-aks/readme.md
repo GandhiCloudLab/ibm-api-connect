@@ -1,4 +1,6 @@
-# Installing API Connect in AKS
+# Installing API Connect in AKS /GKE
+
+This document contains steps to install Installing API Connect in Azure Kubernetes Service (AKS) or Google Kubernetes Engine (GKE)
 
 # 1. Obtaining product files
 
@@ -132,9 +134,18 @@ Need to Get a certificate manager. API Connect uses cert-manager v1.18.1 of cert
 kubectl apply -f cert-manager.yaml
 ```
 
-3. Wait for `cert-manager` pods to enter `Running 1/1` status before proceeding. To check the status, run the below command.
+3. To check the status, run the below command.
 ```
 kubectl get po -n cert-manager 
+```
+
+You might see the output like this. Wait for `cert-manager` pods to enter `1/1     Running` status before proceeding. 
+
+```
+NAME                                       READY   STATUS    RESTARTS   AGE
+cert-manager-5b765f8dfb-xkhkp              1/1     Running   0          17h
+cert-manager-cainjector-78d86dc9df-hwqmb   1/1     Running   0          17h
+cert-manager-webhook-84df4f5688-5vlmn      1/1     Running   0          17h
 ```
 
 ### 3.3. Create registry secret
@@ -174,7 +185,7 @@ kubectl apply -f ibm-apiconnect-crds1.yaml -n apiconnect
 4. Run the following command to deploy the same
 
 ```
-kubectl apply -f ibm-apiconnect-crds2.yaml -n apiconnect
+kubectl create -f ibm-apiconnect-crds2.yaml -n apiconnect
 ```
 
 ### 3.5. Install API Connect Operator
@@ -202,8 +213,6 @@ ibm-datapower
 ```
 kubectl apply -f ibm-datapower.yaml -n apiconnect
 ```
-
-ibm-datapower
 
 ### 3.7. Install ingress-ca Issuer to be used by cert-manager
 
@@ -276,6 +285,9 @@ profile: n1xc2.m16
 storageClassName: managed-premium
 ```
 
+- For AKS : **azurefile-csi-premium**
+- For GKE : **premium-rwo**
+
 4. Update the License info
 ```
   license:
@@ -292,13 +304,13 @@ storageClassName: managed-premium
 kubectl apply -f management_cr.yaml -n apiconnect
 ```
 
-2. Verify that the management subsystem is fully installed:
+2. Verify that the management subsystem is fully installed. It may take atleast 5 minutes to complete.
 
 ```
 kubectl get ManagementCluster -n apiconnect
 ```
 
-The installation has completed when the READY status is True, and the SUMMARY reports that all services are online (e.g. 16/16). For example:
+The installation is completed when the READY status is True, and the SUMMARY column reports that all services are online (e.g. 16/16). For example:
 ```
 NAME         READY   SUMMARY   VERSION    RECONCILED VERSION   AGE
 management   True   16/16       <version>   <version-build>       7m17s
@@ -382,6 +394,9 @@ profile: n1xc4.m8
 storageClassName: managed-premium
 ```
 
+- For AKS : **managed-premium**
+- For GKE : **premium-rwo**
+
 4. Update the License info
 ```
   license:
@@ -453,6 +468,9 @@ profile: n1xc4.m16
 ```
 storageClassName: managed-premium
 ```
+
+- For AKS : **managed-premium**
+- For GKE : **premium-rwo**
 
 4. Update the License info
 ```
@@ -545,6 +563,15 @@ profile: n1xc4.m32
 3. Update the stroage class name.
 ```
 storageClassName: azurefile-csi-premium
+```
+
+- For AKS : **azurefile-csi-premium**
+- For GKE : **premium-rwx**
+
+For GKE, if the file storage is not available you can install it using the below command 
+
+```
+gcloud container clusters update <CLUSTER_NAME> --update-addons=GcpFilestoreCsiDriver=ENABLED
 ```
 
 4. Update the License info
