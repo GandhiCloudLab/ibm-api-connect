@@ -72,4 +72,4 @@ spec:
     accept: true
     use: nonproduction
     license: L-HTFS-UAXYM3
-  mtlsValidateClient: false
+  mtlsValidateClient: true

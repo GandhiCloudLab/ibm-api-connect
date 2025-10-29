@@ -44,7 +44,7 @@ spec:
       - name: ai.111.222.333.444.nip.io
         secretName: analytics-ai-endpoint
     clientSubjectDN: CN=analytics-ingestion-client,O=cert-manager
-  mtlsValidateClient: false
+  mtlsValidateClient: true
   storage:
     type: shared
     shared:

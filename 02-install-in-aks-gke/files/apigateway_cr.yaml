@@ -60,7 +60,7 @@ spec:
   adminUser:
     secretName: datapower-admin-credentials
     # jwksUrl: https://api.myapp.nip.io/api/cloud/oauth2/certs    
-  mtlsValidateClient: false
+  mtlsValidateClient: true
   # syslogConfig:
   #   enabled: false # if true, provide below details
   #   remoteHost: $DATAPOWER_SYSLOG_TCP_REMOTE_HOST # must be a string
