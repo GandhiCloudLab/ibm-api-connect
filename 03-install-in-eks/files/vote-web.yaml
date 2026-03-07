@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gandhi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vote-ui
+  namespace: gandhi
+  labels:
+    app: vote-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vote-ui
+  template:
+    metadata:
+      labels:
+        app: vote-ui
+    spec:
+      containers:
+        - name: vote-ui
+          image: dockersamples/examplevotingapp_vote:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vote-ui-service
+  namespace: gandhi
+spec:
+  selector:
+    app: vote-ui
+  type: LoadBalancer
+  ports:
+    - port: 8070
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ui-app-ingress
+  namespace: gandhi
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: gapp.1.1.1.1.nip.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: vote-ui-service
+                port:
+                  number: 80
