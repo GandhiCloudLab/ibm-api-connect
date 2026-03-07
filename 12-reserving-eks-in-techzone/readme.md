@@ -27,7 +27,7 @@
   <img src="images/img05.png" >
 
 
-## Download Kubernetes config
+## 2. Download Kubernetes config
 
  1. Run the command to download kube config from EKS
  
