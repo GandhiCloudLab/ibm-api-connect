@@ -1,6 +1,6 @@
 # Installing API Connect in AKS /GKE
 
-This document contains steps to install Installing API Connect in Azure Kubernetes Service (AKS) or Google Kubernetes Engine (GKE)
+This document contains steps to install  API Connect in Azure Kubernetes Service (AKS) or Google Kubernetes Engine (GKE)
 
 # 1. Obtaining product files
 

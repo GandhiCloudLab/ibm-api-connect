@@ -1,6 +1,6 @@
 # Installing API Connect in EKS
 
-This document contains steps to install Installing API Connect in Amazon Elastic Kubernetes Service (EKS)
+This document contains steps to install API Connect in Amazon Elastic Kubernetes Service (EKS)
 
 # 1. Obtaining product files
 
