@@ -17,7 +17,7 @@
 
   <img src="images/img03.png" >
  
- 7. Copy the all the 3 informations.
+ 7. Copy all the 3 informations.
 
     - AWS_ACCESS_KEY_ID
     - AWS_SECRET_ACCESS_KEY
@@ -29,7 +29,12 @@
 
 ## Download Kubernetes config
 
- 1. Run the command **aws configure**
+ 1. Run the command to download kube config from EKS
+ 
+ ```
+ aws configure
+ ```
+ 
  2. Enter the below 4 values. (use the values we copied in the previous section)
 
  ```
@@ -39,7 +44,7 @@
  Default output format [json]: json
 ```
 
- 3. Run the below command to Download Kubernetes config by AWS CLI
+ 3. Run the below command to Download Kubernetes config by AWS CLI (use the values we copied in the previous section)
 
  ```
  aws eks update-kubeconfig --region us-east-1 --name itzeks-5500028307-stzsp57g
