@@ -2,6 +2,13 @@
 
 This document contains steps to install API Connect in Amazon Elastic Kubernetes Service (EKS)
 
+
+# EKS cluster 
+
+EKS cluster is required as a pre-requisite. 
+
+You can get the one from Techzone by following this [link](../12-reserving-eks-in-techzone) 
+
 # 1. Obtaining product files
 
 <details><summary>CLICK ME</summary>
