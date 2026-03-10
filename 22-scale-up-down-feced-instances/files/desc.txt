@@ -1,0 +1,154 @@
+Name:             management-8913d321-db-1
+Namespace:        apiconnect
+Priority:         0
+Service Account:  management-8913d321-db
+Node:             ip-10-0-8-66.ec2.internal/10.0.8.66
+Start Time:       Sat, 07 Mar 2026 14:17:21 +0530
+Labels:           app.kubernetes.io/instance=management
+                  app.kubernetes.io/managed-by=ibm-apiconnect
+                  app.kubernetes.io/name=management-8913d321-db
+                  k8s.enterprisedb.io/cluster=management-8913d321-db
+                  k8s.enterprisedb.io/hasBackupHooks=true
+                  k8s.enterprisedb.io/instanceName=management-8913d321-db-1
+                  k8s.enterprisedb.io/instanceRole=primary
+                  k8s.enterprisedb.io/podRole=instance
+                  postgresql=management-8913d321-db
+                  role=primary
+Annotations:      backup.velero.io/backup-volumes: pgdata,pg-wal
+                  k8s.enterprisedb.io/nodeSerial: 1
+                  k8s.enterprisedb.io/operatorVersion: 1.22.9
+                  k8s.enterprisedb.io/podEnvHash: 749b474f56
+                  k8s.enterprisedb.io/podSpec:
+                    {"volumes":[{"name":"pgdata","persistentVolumeClaim":{"claimName":"management-8913d321-db-1"}},{"name":"scratch-data","emptyDir":{}},{"nam...
+                  post.hook.backup.velero.io/command: ["/controller/manager","snapshot","hook","post","backup"]
+                  post.hook.backup.velero.io/container: postgres
+                  post.hook.backup.velero.io/timeout: 300s
+                  pre.hook.backup.velero.io/command: ["/controller/manager","snapshot","hook","pre","backup"]
+                  pre.hook.backup.velero.io/container: postgres
+                  pre.hook.backup.velero.io/on-error: ["/controller/manager","snapshot","hook","pre","onError"]
+                  pre.hook.backup.velero.io/timeout: 300s
+                  productChargedContainers: all
+                  productID: f831eb5a8f4a4e7b9b3f2ebc37ed302e
+                  productMetric: PROCESSOR_VALUE_UNIT
+                  productName: IBM API Connect Enterprise Non Production
+                  productVersion: 10.0.8.4-3237
+Status:           Running
+SeccompProfile:   RuntimeDefault
+IP:               10.0.2.218
+IPs:
+  IP:           10.0.2.218
+Controlled By:  Cluster/management-8913d321-db
+Init Containers:
+  bootstrap-controller:
+    Container ID:    containerd://c46180b05af35388e121261622edd4363f93d3b67d6201422e0fbaf661ad7a40
+    Image:           docker.io/gandigit/ibm-apiconnect-management-edb-operator@sha256:b6500764d4f6d281f1b42458eb223d21f6a413b5db55f2a2ba1a7973aad8465c
+    Image ID:        docker.io/gandigit/ibm-apiconnect-management-edb-operator@sha256:b6500764d4f6d281f1b42458eb223d21f6a413b5db55f2a2ba1a7973aad8465c
+    Port:            <none>
+    Host Port:       <none>
+    SeccompProfile:  RuntimeDefault
+    Command:
+      /manager
+      bootstrap
+      /controller/manager
+      --log-level=info
+    State:          Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Sat, 07 Mar 2026 14:17:30 +0530
+      Finished:     Sat, 07 Mar 2026 14:17:31 +0530
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     750m
+      memory:  8Gi
+    Requests:
+      cpu:        600m
+      memory:     2Gi
+    Environment:  <none>
+    Mounts:
+      /controller from scratch-data (rw)
+      /dev/shm from shm (rw)
+      /run from scratch-data (rw)
+      /var/lib/postgresql/data from pgdata (rw)
+      /var/lib/postgresql/wal from pg-wal (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-65vxz (ro)
+Containers:
+  postgres:
+    Container ID:    containerd://f6cbd037f7b578253b57a83578ae612de2a5eb433b010c6fa9fb8c09e4713387
+    Image:           docker.io/gandigit/ibm-apiconnect-management-edb-postgresql:15.12-6.2.0-202505021016@sha256:ad1fa406b5890e83f032fc65a24faaedc97e858e2e8b9f640065736438e1c12a
+    Image ID:        docker.io/gandigit/ibm-apiconnect-management-edb-postgresql@sha256:ad1fa406b5890e83f032fc65a24faaedc97e858e2e8b9f640065736438e1c12a
+    Ports:           5432/TCP, 9187/TCP, 8000/TCP
+    Host Ports:      0/TCP, 0/TCP, 0/TCP
+    SeccompProfile:  RuntimeDefault
+    Command:
+      /controller/manager
+      instance
+      run
+      --log-level=info
+    State:          Running
+      Started:      Sat, 07 Mar 2026 14:17:31 +0530
+    Ready:          False
+    Restart Count:  0
+    Limits:
+      cpu:     750m
+      memory:  8Gi
+    Requests:
+      cpu:      600m
+      memory:   2Gi
+    Liveness:   http-get http://:8000/healthz delay=0s timeout=5s period=10s #success=1 #failure=3
+    Readiness:  http-get http://:8000/readyz delay=0s timeout=5s period=10s #success=1 #failure=3
+    Startup:    http-get http://:8000/healthz delay=0s timeout=5s period=10s #success=1 #failure=360
+    Environment:
+      PGDATA:        /var/lib/postgresql/data/pgdata
+      POD_NAME:      management-8913d321-db-1
+      NAMESPACE:     apiconnect
+      CLUSTER_NAME:  management-8913d321-db
+      PSQL_HISTORY:  /controller/tmp/.psql_history
+      PGPORT:        5432
+      PGHOST:        /controller/run
+      TMPDIR:        /controller/tmp
+    Mounts:
+      /controller from scratch-data (rw)
+      /dev/shm from shm (rw)
+      /run from scratch-data (rw)
+      /var/lib/postgresql/data from pgdata (rw)
+      /var/lib/postgresql/wal from pg-wal (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-65vxz (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       False
+  ContainersReady             False
+  PodScheduled                True
+Volumes:
+  pgdata:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  management-8913d321-db-1
+    ReadOnly:   false
+  scratch-data:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:
+    SizeLimit:  <unset>
+  shm:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     Memory
+    SizeLimit:  <unset>
+  pg-wal:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  management-8913d321-db-1-wal
+    ReadOnly:   false
+  kube-api-access-65vxz:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                  From     Message
+  ----     ------     ----                 ----     -------
+  Warning  Unhealthy  5s (x22 over 3m21s)  kubelet  Readiness probe failed: HTTP probe failed with statuscode: 500

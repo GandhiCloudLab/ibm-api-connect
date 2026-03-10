@@ -1,0 +1,303 @@
+apiVersion: postgresql.k8s.enterprisedb.io/v1
+kind: Cluster
+metadata:
+  annotations:
+    apiconnect-operator/hash: b0a21b85ab6846f85ac6d2b547d0e1a9b13d0da8c1adfd89c5078df46587c581
+    k8s.enterprisedb.io/addons: '["velero"]'
+    k8s.enterprisedb.io/backupInstance: management-8913d321-db-1
+    k8s.enterprisedb.io/fencedInstances: '[""]'
+    k8s.enterprisedb.io/snapshotAllowColdBackupOnPrimary: enabled
+  creationTimestamp: "2026-03-07T08:46:50Z"
+  generation: 2
+  labels:
+    app.kubernetes.io/instance: management
+    app.kubernetes.io/managed-by: ibm-apiconnect
+    app.kubernetes.io/name: management-8913d321-db
+  name: management-8913d321-db
+  namespace: apiconnect
+  ownerReferences:
+  - apiVersion: management.apiconnect.ibm.com/v1beta1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ManagementCluster
+    name: management
+    uid: be103a1e-f97a-4a5b-883e-4442a1c702ff
+  resourceVersion: "1426934"
+  uid: 25b386e9-a9d2-47ca-b2d4-751a52115fde
+spec:
+  affinity:
+    additionalPodAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+              - cloud-native-postgresql
+          namespaceSelector: {}
+          topologyKey: kubernetes.io/hostname
+        weight: 100
+    enablePodAntiAffinity: true
+    podAntiAffinityType: required
+    topologyKey: kubernetes.io/hostname
+  backup:
+    barmanObjectStore:
+      data:
+        compression: gzip
+      destinationPath: s3://edb-backups
+      endpointCA:
+        key: ca.crt
+        name: management-server
+      endpointURL: https://management-s3proxy.apiconnect.svc:8765
+      s3Credentials:
+        accessKeyId:
+          key: key
+          name: management-s3proxy-auth
+        secretAccessKey:
+          key: keysecret
+          name: management-s3proxy-auth
+      serverName: management-8913d321-db-2026-03-07T084650Z
+      wal:
+        compression: gzip
+    retentionPolicy: 14d
+    target: primary
+  bootstrap:
+    initdb:
+      database: app
+      encoding: UTF8
+      localeCType: C
+      localeCollate: C
+      owner: apicuser
+  certificates:
+    clientCASecret: management-8913d321-db-replication
+    replicationTLSSecret: management-8913d321-db-replication
+    serverCASecret: management-8913d321-db-server
+    serverTLSSecret: management-8913d321-db-server
+  enablePDB: true
+  enableSuperuserAccess: true
+  failoverDelay: 0
+  imageName: docker.io/gandigit/ibm-apiconnect-management-edb-postgresql:15.12-6.2.0-202505021016@sha256:ad1fa406b5890e83f032fc65a24faaedc97e858e2e8b9f640065736438e1c12a
+  imagePullSecrets:
+  - name: apic-registry-secret
+  inheritedMetadata:
+    annotations:
+      backup.velero.io/backup-volumes: pgdata,pg-wal
+      productChargedContainers: all
+      productID: f831eb5a8f4a4e7b9b3f2ebc37ed302e
+      productMetric: PROCESSOR_VALUE_UNIT
+      productName: IBM API Connect Enterprise Non Production
+      productVersion: 10.0.8.4-3237
+    labels:
+      app.kubernetes.io/instance: management
+      app.kubernetes.io/managed-by: ibm-apiconnect
+      app.kubernetes.io/name: management-8913d321-db
+  instances: 1
+  logLevel: info
+  maxSyncReplicas: 0
+  minSyncReplicas: 0
+  monitoring:
+    customQueriesConfigMap:
+    - key: queries
+      name: postgresql-operator-default-monitoring
+    - key: queries
+      name: management-edb-custom-monitoring
+    disableDefaultQueries: false
+    enablePodMonitor: false
+  postgresGID: 26
+  postgresUID: 26
+  postgresql:
+    parameters:
+      archive_mode: "on"
+      archive_timeout: "3600"
+      autovacuum_vacuum_cost_limit: "1000"
+      autovacuum_vacuum_scale_factor: "0.01"
+      dynamic_shared_memory_type: posix
+      effective_cache_size: 4GB
+      full_page_writes: "on"
+      log_destination: csvlog
+      log_directory: /controller/log
+      log_duration: "off"
+      log_filename: postgres
+      log_line_prefix: '%m [%p][%a]'
+      log_rotation_age: "0"
+      log_rotation_size: "0"
+      log_statement: ddl
+      log_temp_files: "0"
+      log_truncate_on_rotation: "false"
+      logging_collector: "on"
+      maintenance_work_mem: 512MB
+      max_connections: "300"
+      max_logical_replication_workers: "20"
+      max_parallel_workers: "32"
+      max_replication_slots: "20"
+      max_sync_workers_per_subscription: "5"
+      max_wal_senders: "30"
+      max_wal_size: 8GB
+      max_worker_processes: "60"
+      min_wal_size: 2GB
+      shared_buffers: 2GB
+      shared_memory_type: mmap
+      shared_preload_libraries: ""
+      ssl_max_protocol_version: TLSv1.3
+      ssl_min_protocol_version: TLSv1.3
+      wal_keep_size: 8GB
+      wal_level: logical
+      wal_log_hints: "on"
+      wal_receiver_timeout: 5s
+      wal_sender_timeout: 5s
+      work_mem: 8MB
+    pg_hba:
+    - hostssl all all all cert clientcert=verify-full
+    - host all all all reject
+    syncReplicaElectionConstraint:
+      enabled: false
+  primaryUpdateMethod: switchover
+  primaryUpdateStrategy: unsupervised
+  replicationSlots:
+    highAvailability:
+      enabled: false
+      slotPrefix: _cnp_
+    updateInterval: 30
+  resources:
+    limits:
+      cpu: 750m
+      memory: 8Gi
+    requests:
+      cpu: 600m
+      memory: 2Gi
+  smartShutdownTimeout: 15
+  startDelay: 3600
+  stopDelay: 1800
+  storage:
+    resizeInUseVolumes: false
+    size: 120G
+    storageClass: gp2
+  switchoverDelay: 3600
+  walStorage:
+    resizeInUseVolumes: false
+    size: 30G
+    storageClass: gp2
+status:
+  availableArchitectures:
+  - goArch: amd64
+    hash: 65bbc122161dec34f9b79f2976369272cec5ccb18027a98d12350597e6628620
+  - goArch: arm64
+    hash: 5cb158d26b091f8fc9367566e483f9c6f9dae02eca21beebf4529e0b3dbc7058
+  - goArch: ppc64le
+    hash: 60fc5433ef58d73bb91bdc9e617224958ca237a72070b4b82d6cadd3a3fab6c6
+  - goArch: s390x
+    hash: db0553e917c694d42232c69e2dc7afb73141ae7e6875119c770b96a461eefe80
+  certificates:
+    clientCASecret: management-8913d321-db-replication
+    expirations:
+      management-8913d321-db-replication: 2028-03-06 08:46:31 +0000 UTC
+      management-8913d321-db-server: 2028-03-06 08:46:30 +0000 UTC
+    replicationTLSSecret: management-8913d321-db-replication
+    serverAltDNSNames:
+    - management-8913d321-db-rw
+    - management-8913d321-db-rw.apiconnect
+    - management-8913d321-db-rw.apiconnect.svc
+    - management-8913d321-db-r
+    - management-8913d321-db-r.apiconnect
+    - management-8913d321-db-r.apiconnect.svc
+    - management-8913d321-db-ro
+    - management-8913d321-db-ro.apiconnect
+    - management-8913d321-db-ro.apiconnect.svc
+    serverCASecret: management-8913d321-db-server
+    serverTLSSecret: management-8913d321-db-server
+  cloudNativePostgresqlCommitHash: 1c8ed4c14
+  cloudNativePostgresqlOperatorHash: 65bbc122161dec34f9b79f2976369272cec5ccb18027a98d12350597e6628620
+  conditions:
+  - lastTransitionTime: "2026-03-07T08:47:41Z"
+    message: Cluster is Ready
+    reason: ClusterIsReady
+    status: "True"
+    type: Ready
+  - lastTransitionTime: "2026-03-09T07:04:24Z"
+    message: Continuous archiving is working
+    reason: ContinuousArchivingSuccess
+    status: "True"
+    type: ContinuousArchiving
+  - lastTransitionTime: "2026-03-07T08:47:41Z"
+    message: velero addon is enabled
+    reason: Enabled
+    status: "True"
+    type: k8s.enterprisedb.io/velero
+  - lastTransitionTime: "2026-03-07T08:47:42Z"
+    message: external-backup-adapter addon is disabled
+    reason: Disabled
+    status: "False"
+    type: k8s.enterprisedb.io/externalBackupAdapter
+  - lastTransitionTime: "2026-03-07T08:47:43Z"
+    message: external-backup-adapter-cluster addon is disabled
+    reason: Disabled
+    status: "False"
+    type: k8s.enterprisedb.io/externalBackupAdapterCluster
+  - lastTransitionTime: "2026-03-07T08:47:43Z"
+    message: kasten addon is disabled
+    reason: Disabled
+    status: "False"
+    type: k8s.enterprisedb.io/kasten
+  - lastTransitionTime: "2026-03-10T01:00:16Z"
+    message: Backup was successful
+    reason: LastBackupSucceeded
+    status: "True"
+    type: LastBackupSucceeded
+  configMapResourceVersion:
+    metrics:
+      management-edb-custom-monitoring: "308222"
+      postgresql-operator-default-monitoring: "308118"
+  currentPrimary: management-8913d321-db-1
+  currentPrimaryTimestamp: "2026-03-07T08:47:32.207283Z"
+  firstRecoverabilityPoint: "2026-03-08T01:00:12Z"
+  firstRecoverabilityPointByMethod:
+    barmanObjectStore: "2026-03-08T01:00:12Z"
+  healthyPVC:
+  - management-8913d321-db-1
+  - management-8913d321-db-1-wal
+  instanceNames:
+  - management-8913d321-db-1
+  instances: 1
+  instancesReportedState:
+    management-8913d321-db-1:
+      isPrimary: true
+      timeLineID: 1
+  instancesStatus:
+    healthy:
+    - management-8913d321-db-1
+  lastSuccessfulBackup: "2026-03-10T01:00:12Z"
+  lastSuccessfulBackupByMethod:
+    barmanObjectStore: "2026-03-10T01:00:12Z"
+  latestGeneratedNode: 1
+  licenseStatus:
+    issuer: IBM (on behalf of EDB)
+    licenseExpiration: "2999-12-31T00:00:00Z"
+    licenseStatus: Valid license (IBM - Data & Analytics (ibmda_cloudpak))
+    repositoryAccess: false
+    valid: true
+  managedRolesStatus: {}
+  phase: Cluster in healthy state
+  poolerIntegrations:
+    pgBouncerIntegration: {}
+  pvcCount: 2
+  readService: management-8913d321-db-r
+  readyInstances: 1
+  secretsResourceVersion:
+    applicationSecretVersion: "308313"
+    barmanEndpointCA: "10567"
+    clientCaSecretVersion: "308021"
+    replicationSecretVersion: "308021"
+    serverCaSecretVersion: "307992"
+    serverSecretVersion: "307992"
+    superuserSecretVersion: "308312"
+  switchReplicaClusterStatus: {}
+  targetPrimary: management-8913d321-db-1
+  targetPrimaryTimestamp: "2026-03-07T08:47:05.311911Z"
+  timelineID: 1
+  topology:
+    instances:
+      management-8913d321-db-1: {}
+    nodesUsed: 1
+    successfullyExtracted: true
+  writeService: management-8913d321-db-rw
