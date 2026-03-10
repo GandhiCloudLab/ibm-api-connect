@@ -490,3 +490,7 @@ portal-system-check-29552715-x59hs                      0/1     Completed   0   
  ### 3.4 Access the APIC 
 
 If you access the APIC admin UI or any other subsytems they are running properly.
+
+## Conclusion
+
+We were able to successfully scale down the environment, during which the APIC subsystems were not operational. After scaling up, the pods started successfully and the APIC subsystems are working properly.
