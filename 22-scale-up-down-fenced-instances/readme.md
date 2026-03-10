@@ -2,11 +2,9 @@
 
 Here are the steps and commands used to scale down and scale up the applications.
 
-We are executing the  scale down steps and see the below mentioned probelm is appearing or not.
+We are executing the scale down steps and see the below mentioned probelm is appearing or not.
 
-```
-When the applications are scaled down and then scaled up again, the StatefulSet/Deployment pods may get scheduled on a different node than the one they were originally running on. Since APIC uses EBS volumes, the volume will detach from the previous node and trying to attach to the new node, which is causing the issue even in EKS Auto Mode.
-```
+*When the applications are scaled down and then scaled up again, the StatefulSet/Deployment pods may get scheduled on a different node than the one they were originally running on. Since APIC uses EBS volumes, the volume will detach from the previous node and trying to attach to the new node, which is causing the issue even in EKS Auto Mode.*
 
 ## 1. PODs 
 
@@ -66,7 +64,7 @@ portal-system-check-29552535-g25wh                      0/1     Completed   0   
 
 ### 2.1 Scale down the statefulset
 
-Scale down the statefulset to 0
+Scale down the statefulset to 0.
  ```
 kubectl scale statefulset --all --replicas=0 -n apiconnect
  ```
@@ -84,7 +82,8 @@ statefulset.apps/portal-nginx scaled
 
 #### PODs now
 
-PODs status as of now
+The pod status shows that several pods have been deleted.
+
  ```
  NAME                                                    READY   STATUS      RESTARTS   AGE     IP            NODE                          NOMINATED NODE   READINESS GATES
 analytics-director-6dd585d56c-4n9x2                     1/1     Running     0          29h     10.0.25.136   ip-10-0-28-124.ec2.internal   <none>           <none>
@@ -175,30 +174,27 @@ metadata:
   .....
  ``` 
 
-See the full file here [cluster.yaml](./files/cluster.yaml) from this repo.
+See the complete file here [here](./files/cluster.yaml) from this repo.
 
 #### 2.2.4 fence the Instances
 
-You can fence all or one as there is only one db pod as of now.
+You can fence all as there is only one db pod as of now.
 
-**All**
  ``` 
 kubectl annotate cluster management-8913d321-db k8s.enterprisedb.io/fencedInstances='["*"]' -n apiconnect  --overwrite
  ``` 
 
  ``` 
- gandhi@Jeyas-MacBook-Pro files % kubectl annotate cluster management-8913d321-db k8s.enterprisedb.io/fencedInstances='["*"]' -n apiconnect  --overwrite
+ gandhi@Jeyas-MacBook-Pro files % kubectl annotate cluster \
+ management-8913d321-db k8s.enterprisedb.io/fencedInstances='["*"]' -n apiconnect  --overwrite
 
 cluster.postgresql.k8s.enterprisedb.io/management-8913d321-db annotated
 ``` 
 
-**One**
- ``` 
-kubectl patch cluster management-8913d321-db -n apiconnect --type overwrite -p '{"metadata":{"annotations":{"k8s.enterprisedb.io/fencedInstances":"[\"management-8913d321-db-1\"]"}}}'
- ```
 
 #### 2.2.5 PODs now
 
+Here is the status of the pods now.
 
  ```
  NAME                                                    READY   STATUS      RESTARTS       AGE     IP            NODE                          NOMINATED NODE   READINESS GATES
@@ -274,6 +270,8 @@ deployment.apps/management-websocket-proxy scaled
 
 #### PODs now
 
+The pod status shows that almost all the pods have been deleted.
+
  ```
  NAME                                       READY   STATUS             RESTARTS       AGE     IP            NODE                          NOMINATED NODE   READINESS GATES
 analytics-oscron-29552670-tbxcg            0/1     Completed          0              35m     10.0.21.39    ip-10-0-21-67.ec2.internal    <none>           <none>
@@ -291,16 +289,19 @@ management-system-check-29552705-7gz8j     0/1     Completed          0         
 portal-system-check-29552655-nzqvh         0/1     Completed          0              50m     10.0.18.113   ip-10-0-21-67.ec2.internal    <none>           <none>
 
  ```
+### 2.4 Access the APIC 
 
+If you access the APIC admin UI or any other subsytems they are not running.
 
 ## 3. Scale up
+
+Lets scale up again to the previous state.
 
 ### 3.1 Scale up the statefulset
 
 Scale up the statefulset to 1
  ```
 kubectl scale statefulset --all --replicas=1 -n apiconnect
-
  ```
 
  ```
@@ -317,6 +318,8 @@ statefulset.apps/portal-nginx scaled
  ```
 
 #### PODs now
+
+The pod status shows that few pods have been created.
 
 
  ```
@@ -375,6 +378,9 @@ deployment.apps/management-websocket-proxy scaled
 
 #### PODs now
 
+The pod status shows that most of the pods have been created.
+
+
  ```
 gandhi@Jeyas-MacBook-Pro files %  kubectl get pods -n apiconnect -o wide
 NAME                                                    READY   STATUS      RESTARTS   AGE     IP            NODE                          NOMINATED NODE   READINESS GATES
@@ -423,14 +429,20 @@ portal-system-check-29552715-x59hs                      0/1     Completed   0   
 You can fence all or one as there is only one db pod as of now.
 
  ``` 
-kubectl annotate cluster management-8913d321-db k8s.enterprisedb.io/fencedInstances='[""]' -n apiconnect --overwrite
+kubectl annotate cluster management-8913d321-db k8s.enterprisedb.io/fencedInstances='[""]' \
+-n apiconnect --overwrite
  ``` 
 
  ``` 
- gandhi@Jeyas-MacBook-Pro files % kubectl annotate cluster management-8913d321-db k8s.enterprisedb.io/fencedInstances='[""]' -n apiconnect --overwrite
+ gandhi@Jeyas-MacBook-Pro files % kubectl annotate cluster management-8913d321-db \
+ k8s.enterprisedb.io/fencedInstances='[""]' -n apiconnect --overwrite
+
 cluster.postgresql.k8s.enterprisedb.io/management-8913d321-db annotated
  ``` 
 #### PODs now
+
+The pod status shows that all the pods have been created.
+
 
  ```
  gandhi@Jeyas-MacBook-Pro files %  kubectl get pods -n apiconnect -o wide
@@ -474,3 +486,7 @@ portal-0fbf20f0-www-0                                   2/2     Running     0   
 portal-nginx-0                                          1/1     Running     0             12m     10.0.19.156   ip-10-0-28-124.ec2.internal   <none>           <none>
 portal-system-check-29552715-x59hs                      0/1     Completed   0             3m24s   10.0.8.109    ip-10-0-2-131.ec2.internal    <none>           <none>
  ```
+
+ ### 3.4 Access the APIC 
+
+If you access the APIC admin UI or any other subsytems they are running properly.
