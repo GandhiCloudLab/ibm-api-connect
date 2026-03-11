@@ -6,7 +6,26 @@ We are executing the scale down steps and see the below mentioned probelm is app
 
 *When the applications are scaled down and then scaled up again, the StatefulSet/Deployment pods may get scheduled on a different node than the one they were originally running on. Since APIC uses EBS volumes, the volume will detach from the previous node and trying to attach to the new node, which is causing the issue even in EKS Auto Mode.*
 
-## 1. PODs 
+## 1. Before scalling down
+
+### 1.1 Nodes with AZ
+ ```
+kubectl get nodes -L topology.kubernetes.io/zone
+ ```
+
+Result :
+
+ ```
+gandhi@Jeyas-MacBook-Pro files % kubectl get nodes -L topology.kubernetes.io/zone
+NAME                          STATUS   ROLES    AGE     VERSION               ZONE
+ip-10-0-2-131.ec2.internal    Ready    <none>   4d10h   v1.33.8-eks-efcacff   us-east-1a
+ip-10-0-21-67.ec2.internal    Ready    <none>   4d10h   v1.33.8-eks-efcacff   us-east-1b
+ip-10-0-28-124.ec2.internal   Ready    <none>   3d18h   v1.33.8-eks-efcacff   us-east-1b
+ip-10-0-8-66.ec2.internal     Ready    <none>   4d10h   v1.33.8-eks-efcacff   us-east-1a
+  ```
+
+
+### 1.2 PODs
 
 PODs status before scalling down.
 
