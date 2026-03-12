@@ -683,3 +683,46 @@ kubectl get pods -n apiconnect
 You may not have a pod in CrashLoopBackOff status.
 
 </details>
+
+
+## Trouble Shooting
+
+### 1. Issue - SSL Handsake errors in the ingress-nginx logs
+
+#### Issue
+
+Faced an issue when trying to register the Gateway in the APIC CMC: I was getting the following SSL Handsake errors in the ingress-nginx logs.
+
+#### Rootcause
+
+Config for `ingress-nginx` was not enabling `ssl-passthru`
+
+#### Solution 
+
+Enabling `ssl-passthru` in the `ingress-nginx` Deployment, last "arg" solves this problem.
+
+Deployment 
+
+```
+    kind: Deployment
+    metadata:
+        name: ingress-nginx-controller
+        namespace: ingress-nginx
+    .....
+    .....
+    .....
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - args:
+        - /nginx-ingress-controller
+        - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller
+        - --election-id=ingress-nginx-leader
+        - --controller-class=k8s.io/ingress-nginx
+        - --ingress-class=nginx
+        - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller
+        - --validating-webhook=:8443
+        - --validating-webhook-certificate=/usr/local/certificates/cert
+        - --validating-webhook-key=/usr/local/certificates/key
+        - --enable-ssl-passthrough
+```        
