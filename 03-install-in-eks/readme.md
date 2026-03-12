@@ -687,6 +687,8 @@ You may not have a pod in CrashLoopBackOff status.
 
 ## Trouble Shooting
 
+<details><summary>CLICK ME</summary>
+
 ### 1. Issue - SSL Handsake errors in the ingress-nginx logs
 
 #### Issue
@@ -699,7 +701,7 @@ Config for `ingress-nginx` was not enabling `ssl-passthru`
 
 #### Solution 
 
-Enabling `ssl-passthru` in the `ingress-nginx` Deployment, last "arg" solves this problem.
+Enabling `ssl-passthru` in the `ingress-nginx` Deployment, last **arg** solves this problem.
 
 Deployment 
 
@@ -726,3 +728,4 @@ Deployment
         - --validating-webhook-key=/usr/local/certificates/key
         - --enable-ssl-passthrough
 ```        
+</details>
