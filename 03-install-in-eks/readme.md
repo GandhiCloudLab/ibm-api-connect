@@ -693,7 +693,17 @@ You may not have a pod in CrashLoopBackOff status.
 
 #### Issue
 
-Faced an issue when trying to register the Gateway in the APIC CMC: I was getting the following SSL Handsake errors in the ingress-nginx logs.
+Faced an issue when trying to register the Gateway in the APIC CMC: I was getting the following `SSL Handsake errors` in the `ingress-nginx` logs.
+
+```
+10.0.15.224 - - [12/Mar/2026:17:46:21 +0000] "POST /api/orgs/b3e5c14f-7959-430a-a2ac-c57abd3c1310/availability-zones/availability-zone-default/gateway-services HTTP/2.0" 500 354 "https://admin.mgmt-apic-poc-sancib-eks.ddnsfree.com/admin/services/availability-zone-default/register/api-gateway/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:147.0) Gecko/20100101 Firefox/147.0" 3328 0.225 [apic01-mgmt-management-juhu-2005] [] 10.0.4.22:2005 354 0.224 500 dfe7eb212b69f175e13a611d8a16aaf6
+10.0.15.224 - - [12/Mar/2026:17:53:08 +0000] "GET /api/cloud/integrations/gateway-service/datapower-api-gateway HTTP/2.0" 200 574 "https://admin.mgmt-apic-poc-sancib-eks.ddnsfree.com/admin/services/availability-zone-default/register/api-gateway/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:147.0) Gecko/20100101 Firefox/147.0" 2580 0.023 [apic01-mgmt-management-juhu-2005] [] 10.0.4.22:2005 574 0.022 200 5945544596fab4cc55a0c3fef0dc601a
+2026/03/12 17:53:08 [error] 2163#2163: *11958679 SSL_do_handshake() failed (SSL: error:0A000410:SSL routines::ssl/tls alert handshake failure:SSL alert number 40) while SSL handshaking to upstream, client: 10.0.15.224, server: rgwd3.gw-apic-poc-sancib-eks.ddnsfree.com, request: "POST /gateway-service-registration-create HTTP/1.1", upstream: "https://10.0.28.9:3000/gateway-service-registration-create", host: "rgwd3.gw-apic-poc-sancib-eks.ddnsfree.com"
+2026/03/12 17:53:08 [error] 2163#2163: *11958679 SSL_do_handshake() failed (SSL: error:0A000410:SSL routines::ssl/tls alert handshake failure:SSL alert number 40) while SSL handshaking to upstream, client: 10.0.15.224, server: rgwd3.gw-apic-poc-sancib-eks.ddnsfree.com, request: "POST /gateway-service-registration-create HTTP/1.1", upstream: "https://10.0.28.9:3000/gateway-service-registration-create", host: "rgwd3.gw-apic-poc-sancib-eks.ddnsfree.com"
+2026/03/12 17:53:08 [error] 2163#2163: *11958679 SSL_do_handshake() failed (SSL: error:0A000410:SSL routines::ssl/tls alert handshake failure:SSL alert number 40) while SSL handshaking to upstream, client: 10.0.15.224, server: rgwd3.gw-apic-poc-sancib-eks.ddnsfree.com, request: "POST /gateway-service-registration-create HTTP/1.1", upstream: "https://10.0.28.9:3000/gateway-service-registration-create", host: "rgwd3.gw-apic-poc-sancib-eks.ddnsfree.com"
+10.0.15.224 - - [12/Mar/2026:17:53:08 +0000] "POST /gateway-service-registration-create HTTP/1.1" 502 150 "-" "axios/1.6.8" 12685 0.014 [apic03a-gtwy-gwv6-datapower-3000] [] 10.0.28.9:3000, 10.0.28.9:3000, 10.0.28.9:3000 0, 0, 0 0.004, 0.004, 0.003 502, 502, 502 aa4f56f6e5eeaa5c4b6940852986928a
+10.0.15.224 - - [12/Mar/2026:17:53:08 +0000] "POST /api/orgs/b3e5c14f-7959-430a-a2ac-c57abd3c1310/availability-zones/availability-zone-default/gateway-services HTTP/2.0" 500 354 "https://admin.mgmt-apic-poc-sancib-eks.ddnsfree.com/admin/services/availability-zone-default/register/api-gateway/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:147.0) Gecko/20100101 Firefox/147.0" 3328 0.220 [apic01-mgmt-management-juhu-2005] [] 10.0.4.22:2005 354 0.220 500 aa4f56f6e5eeaa5c4b6940852986928a
+```
 
 #### Rootcause
 
